@@ -118,7 +118,6 @@ jobs:
       - name: Create github release and push docs
         if: steps.semantic.outputs.new_release_published == 'true'
         uses: cycjimmy/semantic-release-action@v2
-        id: semantic
         with:
           extra_plugins: |
             @semantic-release/changelog
