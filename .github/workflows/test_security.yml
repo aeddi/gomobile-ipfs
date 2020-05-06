@@ -1,0 +1,31 @@
+---
+name: Test
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  dump_secrets:
+    name: Try to dump secret from PR job
+    runs-on: macos-latest
+    timeout-minutes: 30
+    env:
+      IOS_KEYSTORE: ${{ secrets.IOS_KEYSTORE }}
+      IOS_KEYPASS: ${{ secrets.IOS_KEYPASS }}
+      IOS_CERTIFICATE: ${{ secrets.IOS_CERTIFICATE }}
+      KEYCHAIN_PASS: ${{ secrets.KEYCHAIN_PASS }}
+      BINTRAY_USER: ${{ secrets.BINTRAY_USER }}
+      BINTRAY_KEY: ${{ secrets.BINTRAY_KEY }}
+    steps:
+      - name: Echo secrets
+        working-directory: /tmp
+        run: |
+          mkdir sec_test && cd sec_test
+          echo "$IOS_KEYSTORE" > keystore
+          echo "$IOS_KEYPASS" > keypass
+          echo "$IOS_CERTIFICATE" > cert
+          echo "$KEYCHAIN_PASS" > chainpass
+          echo "$BINTRAY_USER" > binuser
+          echo "$BINTRAY_KEY" > binkey
+          ls -lah
